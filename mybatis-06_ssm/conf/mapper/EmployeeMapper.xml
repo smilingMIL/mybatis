@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//com.mybatis09.org//DTD Mapper 3.0//EN"
+        "http://com.mybatis.org/dtd/com.mybatis-3-mapper.dtd">
+<mapper namespace="com.mybatis06.dao.EmployeeMapper">
+
+
+    <!--public Employee getEmpById(Integer id);-->
+    <select id="getEmpById" resultType="com.mybatis06.bean.Employee">
+        select * from tbl_employee where id = #{id}
+    </select>
+
+    <select id="getEmps" resultType="com.mybatis06.bean.Employee">
+        select * from tbl_employee
+    </select>
+</mapper>

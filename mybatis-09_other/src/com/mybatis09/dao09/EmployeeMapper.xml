@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//com.mybatis09.org//DTD Mapper 3.0//EN"
+        "http://com.mybatis.org/dtd/com.mybatis-3-mapper.dtd">
+<mapper namespace="com.mybatis09.dao09.EmployeeMapper">
+
+
+    <select id="getEmpById" resultType="com.mybatis09.bean09.Employee">
+        select * from tbl_employee where id = #{id}
+    </select>
+
+    <!--public List<Employee> getEmps();-->
+    <select id="getEmps" resultType="com.mybatis09.bean09.Employee">
+        select * from tbl_employee
+    </select>
+
+
+    <!--public Long addEmp(Employee employee);-->
+    <insert id="addEmp">
+        insert into tbl_employee(last_name,email,gender)values(#{lastName},#{email},#{gender})
+    </insert>
+
+</mapper>

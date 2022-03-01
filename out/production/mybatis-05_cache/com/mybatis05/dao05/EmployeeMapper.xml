@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//com.mybatis.org//DTD Mapper 3.0//EN"
+        "http://com.mybatis.org/dtd/com.mybatis-3-mapper.dtd">
+<mapper namespace="com.mybatis05.dao05.EmployeeMapper">
+    <!--配置二级缓存
+    eviction=""：缓存的回收策略：LRU-最近最少使用/FIFO-先进先出/SOFT-软引用/WEAK-弱引用/默认LRU
+    flushInterval=""：缓存刷新间隔-多长时间清空一次（毫秒单位）；默认不清空
+    readOnly=""：是否只读:true-只读/false-非只读
+    size=""：缓存存放多少元素
+    type=""：指定自定义缓存的全类名
+    -->
+    <!--<cache eviction="FIFO" flushInterval="60000" readOnly="false" size="1024" />-->
+    <cache type="org.mybatis.caches.ehcache.EhcacheCache"></cache>
+
+
+
+    <select id="getEmpById" resultType="com.mybatis05.bean05.Employee">
+        select * from tbl_employee where id = #{id}
+    </select>
+
+
+
+</mapper>

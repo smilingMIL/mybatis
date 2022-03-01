@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//com.mybatis09.org//DTD Mapper 3.0//EN"
+        "http://com.mybatis.org/dtd/com.mybatis-3-mapper.dtd">
+<mapper namespace="com.batis.dao03.EmployeeMapper"><!--namespace名称空间;指定为接口全类名-->
+
+    <!--查询全部记录封装为一个map返回-->
+    <select id="getEmpsMap" resultType="com.batis.bean03.Employee">
+        select * from tbl_employee;
+    </select>
+
+
+    <!--根据id查询返回map-->
+    <select id="getEmpByIdMap" resultType="map">
+            select * from tbl_employee where id = #{id}
+    </select>
+
+
+    <!--查询全部返回list-->
+    <!--resultType :如果是返回是一个集合，要写集合中元素的类型-->
+    <select id="getEmps" resultType="com.batis.bean03.Employee">
+        select * from tbl_employee;
+    </select>
+
+
+    <!--查询-->
+    <!--id:唯一标识-->
+    <!--resultType:返回值类型-->
+    <select id="getEmpById" resultType="com.batis.bean03.Employee">
+        select * from tbl_employee where id = #{id}
+    </select>
+
+    <!--添加-->
+    <!--parameterType:可以省略
+    获取自增主键的值
+    mybatis支持自增主键，自增主键值的获取，mybatis也是利用statement.getGenreatedKeys();
+    useGeneratedKeys="true";使用自增主键获取主键值策略
+    KeyProperty：指定对应的主键属性，也就是mybatis获取到主键值以后，将这个值封装给javaBean的哪个属性
+    -->
+    <insert id="addEmp" parameterType="com.batis.bean03.Employee"
+    useGeneratedKeys="true" keyProperty="id">
+        insert into tbl_employee(last_name,email,gender)values(#{lastName},#{email},#{gender})
+    </insert>
+
+    <!--更新-->
+    <update id="updateEmp">
+        update tbl_employee set last_name=#{lastName},email=#{email},gender=#{gender} where id=#{id}
+    </update>
+
+    <!--删除-->
+    <delete id="deleteEmpById">
+        delete from tbl_employee where id=#{id}
+    </delete>
+
+</mapper>

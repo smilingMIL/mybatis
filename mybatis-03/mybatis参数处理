@@ -1,0 +1,79 @@
+1.单个参数：mybatis不会做出任何处理
+        #{参数名}；取出参数值
+
+2.多个参数：mybatis遇见多个参数会做特殊处理
+        多个参数会被封装一个map
+                key：param1...paramN，或者参数的索引；
+                value：传入的参数值；
+        #{}就是从map中获取指定的key的值；
+
+3.多个参数推荐*使用 命名参数：明确指定封装参数时map的key --->>> key：使用@Param("设定指定key值")
+    在接口EmployeeMapper中：public Employee getEmp(@Param("id")Integer id,@Param("name")String name);
+        #{指定的key}取出对应的参数；
+
+4.POJO
+如果多个参数正好是我们业务逻辑的数据模型，我们就可以直接传入POJO；
+        #{属性名}：取出传入的pojo的属性值
+
+5.Map
+如果多个参数不是业务模型中的数据，没有对应的POJO，为了方便，我们也可以传入map
+    在接口EmployeeMapper中：public Employee getEmpMap(Map<String,Object> map);
+        Map<String,Object> map = new HashMap<>();
+         map.put("id",1);
+          mapper.getEmpMap(map);
+           #{key},取出map中对应的值
+
+6.TO
+如果多个参数不是业务模型中的参数，但经常要使用，推荐编写一个 TO(Transfer Object) 数据传输对象
+例子：
+Page{
+    int index;
+    int size;
+}
+
+========================================参数的获取============================================
+#{}：可以获取map中的值或者pojo对象属性的值
+${}: 可以获取map中的值或者pojo对象属性的值
+
+    sql语句:select * from xxx where id=${id} and name=#{name}
+    日志:select * from xxx where id=2 and name=?
+        区别：
+                #{}：是以预编译的形式，将参数设置到sql语句中：PreparedStatement;防止sql注入
+                ${}：是取出的值直接拼装在sql语句中；会有安全问题
+                大多数下，我们去参数的值都应该去使用#{}；
+
+                原生jdbc不支持占位符的地方我们就可以使用${}进行取值
+                比如分表、排序...操作：
+                        select * from ${year}_salary where xxx;
+
+
+#{}:更丰富的用法：
+        规定参数的一些规则，
+        javaType、jdbcType、mode(存储过程)、numericScale、
+        resultMap、typeHandler、jdbcTypeName、expression（未来准备支持的功能）；
+
+        jdbcType通常需要在某种特定的条件下被设置：
+              在我们数据为null时，有些数据库可能不能识别mybatis对null的默认处理，比如Oracle(会报错)；
+
+              JdbcType OTHER:无效的类型：因为mybatis对所有的null都映射的是原生Jdbc的OTHER类型，
+
+              由于全局配置中，jdbcTypeForNull=OTHER:oracle不支持：所有两种方法：
+              1.在sql语句中 #{email,jdbcType=OTHER/jdbcType=null}
+              2.在全局配置文件中的setting中的 name=jdbcTypeForNull value=null
+
+
+
+========================================思考=================================================
+
+public Employee getEmp(@Param("id")Integer id,String lastName);
+        取值:id==>#{id/param1}    lastName==>#{param2}
+
+public Employee getEmp(Integer id,@Param("e")String lastName);
+        取值:id==>#{param1}       lastName==>#{param2.lastName/e.lastName}
+
+##特别注意，如果是Collection (List、Set)类型或者是数组
+            也会特殊处理。也是把传入的list或者数组封装在map中。
+                key：Collection (collection) ,如果是List还可以使用这个key(list)
+                     数组(array)
+public Employee getEmpById(List<Integer> ids);
+        取值：取出第一个值：#{list[0]}

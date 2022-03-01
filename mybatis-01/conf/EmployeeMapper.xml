@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//com.mybatis09.org//DTD Mapper 3.0//EN"
+        "http://com.mybatis.org/dtd/com.mybatis-3-mapper.dtd">
+
+<mapper namespace="com.mybatis09.dao09.EmployeeMapper">
+<!--
+    namespace:名称空间;指定为接口全类名
+    id:唯一标识
+    resultType:返回值类型
+    #{id}:从传递过来的参数中取出id值（类似占位符）
+
+
+    public Employee getEmpById(Integer id);
+-->
+    <select id="getEmpById" resultType="com.mybatis09.bean09.Employee">
+            select id,last_name lastName,email,gender from tbl_employee where id = #{id}
+    </select>
+</mapper>

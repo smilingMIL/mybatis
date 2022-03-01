@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//com.mybatis09.org//DTD Config 3.0//EN"
+        "http://com.mybatis.org/dtd/com.mybatis-3-config.dtd">
+<configuration>
+
+
+    <settings>
+        <!--开启自动驼峰命名-->
+        <setting name="mapUnderscoreToCamelCase" value="true"/>
+        <!--可以为空-->
+        <setting name="jdbcTypeForNull" value="NULL"/>
+
+        <!--开启延迟加载，（延迟到只有当需要用到的时候再调用）-->
+        <setting name="lazyLoadingEnabled" value="true"/>
+        <setting name="aggressiveLazyLoading" value="false"/>
+
+        <!--开启二级缓存-->
+        <setting name="cacheEnabled" value="true"/>
+
+    </settings>
+
+
+    <!--支持多数据库厂商的；-->
+    <databaseIdProvider type="DB_VENDOR">
+        <!--为不同的数据库厂商起别名-->
+        <property name="MySQL" value="mysql"/>
+        <property name="Oracle" value="oracle"/>
+    </databaseIdProvider>
+
+
+
+</configuration>
